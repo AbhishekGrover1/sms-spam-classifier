@@ -1,17 +1,10 @@
-<div align="center">
+# *SMS SPAM CLASSIFIER*
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:090b12,100:25325c&height=200&section=header&text=SMS%20Spam%20Classifier&fontSize=46&fontColor=e8ebf4&fontAlignY=38&desc=Precision-first%20spam%20detection%20with%20explainable%20predictions&descSize=16&descColor=a9c4ff&descAlignY=60" alt="SMS Spam Classifier" width="100%">
-
-![Python](https://img.shields.io/badge/Python-3.12-a9c4ff?style=flat-square&labelColor=1e2230&logo=python&logoColor=a9c4ff)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-ffd6a5?style=flat-square&labelColor=1e2230&logo=scikitlearn&logoColor=ffd6a5)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.142-b5ead7?style=flat-square&labelColor=1e2230&logo=fastapi&logoColor=b5ead7)
-![Render](https://img.shields.io/badge/Deploy-Render-c7ceea?style=flat-square&labelColor=1e2230&logo=render&logoColor=c7ceea)
-![License](https://img.shields.io/badge/License-MIT-ffb7b2?style=flat-square&labelColor=1e2230)
-
-<br>
-
-<img src="docs/preview.png" alt="SMS Spam Classifier interface showing a spam verdict" width="720">
-
+[![Live App](https://img.shields.io/badge/Live-App-2EA043?style=flat-square&logo=render&logoColor=white)](link paste here)
+![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/flask-3.1-E3242B?style=flat-square&logo=flask&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-F37626?style=flat-square&logo=scikitlearn&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-7C3AED?style=flat-square)
 </div>
 
 ## Table of contents

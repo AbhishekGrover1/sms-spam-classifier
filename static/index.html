@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SMS Spam Classifier | Abhishek Grover</title>
+  <meta name="description" content="Paste a text message and find out whether it is spam.">
+  <meta name="theme-color" content="#090b12">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%2310131c'/%3E%3Crect x='6' y='9' width='20' height='14' rx='3' fill='none' stroke='%23a9c4ff' stroke-width='2.4'/%3E%3Cpath d='M7.5 12l8.5 6.5 8.5-6.5' fill='none' stroke='%23a9c4ff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="/static/fonts/fraunces-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="name">Abhishek Grover</p>
+      <p class="role">AI/ML Engineer</p>
+    </header>
+
+    <main>
+      <h1>SMS Spam Classifier</h1>
+
+      <section class="panel">
+        <label class="sr-only" for="message">Message to classify</label>
+        <textarea id="message" rows="6" maxlength="1000" spellcheck="false"
+                  placeholder="Paste a text message here"></textarea>
+
+        <div class="controls">
+          <button type="button" class="key key-main" id="classify">Classify</button>
+          <button type="button" class="key key-quiet" data-sample="spam">Spam example</button>
+          <button type="button" class="key key-quiet" data-sample="ham">Normal example</button>
+        </div>
+
+        <p class="notice" id="notice" role="alert"></p>
+      </section>
+
+      <section class="result" id="result" aria-live="polite" hidden>
+        <p class="verdict" id="verdict"></p>
+        <div class="meter"><span class="meter-fill" id="meter-fill"></span></div>
+        <p class="score" id="score"></p>
+
+        <div class="signals" id="signals" hidden>
+          <p class="signals-title">Words that shaped this result</p>
+          <ul class="chips" id="chips"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/script.js" defer></script>
+</body>
+</html>

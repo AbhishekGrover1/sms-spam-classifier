@@ -1,0 +1,57 @@
+{
+  "model": "Linear SVM",
+  "threshold": 0.5324,
+  "target_precision": 0.98,
+  "trained_at": "2026-10-07 05:49 UTC",
+  "sklearn_version": "1.9.1",
+  "data": {
+    "rows_in_file": 5572,
+    "unique_messages": 5158,
+    "spam": 642,
+    "ham": 4516,
+    "train_size": 4126,
+    "test_size": 1032
+  },
+  "test": {
+    "accuracy": 0.9961,
+    "precision": 1.0,
+    "recall": 0.9688,
+    "f1": 0.9841,
+    "roc_auc": 0.9989,
+    "pr_auc": 0.9951,
+    "always_ham_accuracy": 0.876,
+    "confusion_matrix": {
+      "true_ham": 904,
+      "false_spam": 0,
+      "missed_spam": 4,
+      "caught_spam": 124
+    }
+  },
+  "comparison": {
+    "Naive Bayes": {
+      "cv_pr_auc": 0.9818,
+      "test_pr_auc": 0.9847,
+      "test_roc_auc": 0.9957,
+      "best_params": {
+        "alpha": 0.03
+      }
+    },
+    "Logistic Regression": {
+      "cv_pr_auc": 0.9845,
+      "test_pr_auc": 0.9961,
+      "test_roc_auc": 0.9993,
+      "best_params": {
+        "C": 100,
+        "class_weight": "balanced"
+      }
+    },
+    "Linear SVM": {
+      "cv_pr_auc": 0.9852,
+      "test_pr_auc": 0.9951,
+      "test_roc_auc": 0.9989,
+      "best_params": {
+        "estimator__C": 1
+      }
+    }
+  }
+}

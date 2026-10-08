@@ -1,0 +1,406 @@
+/* SMS Spam Classifier UI. Author: Abhishek Grover */
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/static/fonts/fraunces-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/static/fonts/fraunces-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/static/fonts/plex-mono-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/static/fonts/plex-mono-500.woff2") format("woff2");
+}
+
+:root {
+  --night: #090b12;
+  --surface: #10131c;
+  --edge: #222737;
+  --text: #e8ebf4;
+  --muted: #8a91a6;
+  --screen: #a9c4ff;
+  --spam: #ff7a7a;
+  --ham: #5fe3c0;
+
+  --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1000px 520px at 50% -160px, rgba(110, 140, 255, 0.14), transparent 70%),
+    var(--night);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.page {
+  width: min(680px, 100% - 40px);
+  margin: 0 auto;
+  padding: 28px 0 96px;
+}
+
+/* name and role */
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--edge);
+}
+
+.masthead p {
+  margin: 0;
+}
+
+.name {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.role {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+main {
+  padding-top: clamp(40px, 9vh, 84px);
+}
+
+h1 {
+  margin: 0 0 32px;
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 7vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* the surfaces light up around the cursor, position comes from script.js */
+.panel {
+  position: relative;
+  padding: 18px;
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  background:
+    radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(169, 196, 255, 0.09), transparent 65%),
+    var(--surface);
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx, 50%) var(--my, 0%), rgba(169, 196, 255, 0.75), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 0.25s;
+  pointer-events: none;
+}
+
+.panel:hover::after,
+.panel:focus-within::after {
+  opacity: 1;
+}
+
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 168px;
+  padding: 6px 4px;
+  border: 0;
+  outline: 0;
+  resize: vertical;
+  background: transparent;
+  color: var(--text);
+  caret-color: var(--screen);
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+textarea::placeholder {
+  color: #5d6479;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 12px;
+  margin-top: 14px;
+  padding-top: 18px;
+  border-top: 1px solid var(--edge);
+}
+
+/* keys: they tilt toward the cursor (script.js sets --rx and --ry) and press down on click */
+.key {
+  --rx: 0deg;
+  --ry: 0deg;
+  --press: 0px;
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  cursor: pointer;
+  transform: perspective(520px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--press));
+  transition: transform 0.14s ease-out, box-shadow 0.14s ease-out, color 0.2s, filter 0.2s;
+  will-change: transform;
+}
+
+.key:active {
+  --press: 4px;
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--screen);
+  outline-offset: 5px;
+}
+
+.key:disabled {
+  cursor: progress;
+  filter: saturate(0.6) brightness(0.9);
+}
+
+.key-main {
+  margin-bottom: 5px;
+  color: #0b1020;
+  background: linear-gradient(180deg, #f6f8ff 0%, #c8d4f5 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 5px 0 #6577ad,
+    0 14px 28px -8px rgba(140, 170, 255, 0.5);
+}
+
+.key-main:active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 1px 0 #6577ad,
+    0 6px 14px -8px rgba(140, 170, 255, 0.4);
+}
+
+.key-quiet {
+  margin-bottom: 4px;
+  color: var(--muted);
+  background: linear-gradient(180deg, #1b2030, #141826);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 0 0 1px var(--edge),
+    0 4px 0 #0a0d16;
+}
+
+.key-quiet:hover {
+  color: var(--text);
+}
+
+.key-quiet:active {
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 0 0 1px var(--edge),
+    0 1px 0 #0a0d16;
+}
+
+.notice {
+  margin: 14px 0 0;
+  color: var(--spam);
+  font-size: 0.88rem;
+}
+
+.notice:empty {
+  display: none;
+}
+
+/* result: one tone colour (coral for spam, mint for normal) drives the whole card */
+.result {
+  --tone: var(--spam);
+  position: relative;
+  isolation: isolate;
+  margin-top: 28px;
+  padding: 30px 26px 26px;
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 0.9s ease, border-color 0.9s ease;
+}
+
+.result[data-tone="ham"] {
+  --tone: var(--ham);
+}
+
+.result::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(
+    520px circle at var(--mx, 20%) var(--my, 0%),
+    color-mix(in srgb, var(--tone) 20%, transparent),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.result.is-lit {
+  border-color: color-mix(in srgb, var(--tone) 45%, var(--edge));
+  box-shadow: 0 0 90px -34px color-mix(in srgb, var(--tone) 70%, transparent);
+}
+
+.result.is-lit::before {
+  opacity: 1;
+}
+
+.verdict {
+  margin: 0;
+  color: var(--tone);
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 10vw, 4.6rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.meter {
+  height: 6px;
+  margin: 24px 0 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1a1f2e;
+}
+
+.meter-fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--tone);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--tone) 70%, transparent);
+  transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.score {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.score strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.signals {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--edge);
+}
+
+.signals-title {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  max-width: 100%;
+  padding: 5px 12px;
+  border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--tone) 10%, transparent);
+  color: var(--tone);
+  font-size: 0.85rem;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 520px) {
+  .masthead {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .key-main {
+    width: 100%;
+  }
+
+  .key-quiet {
+    flex: 1 1 0;
+    padding: 12px 10px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .result {
+    padding: 24px 20px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+
+  .key {
+    transform: none;
+  }
+}

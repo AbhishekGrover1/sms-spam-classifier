@@ -1,6 +1,6 @@
 # *SMS SPAM CLASSIFIER*
 
-[![Live App](https://img.shields.io/badge/Live-App-2EA043?style=flat-square&logo=render&logoColor=white)](link paste here)
+[![Live App](https://img.shields.io/badge/Live-App-2EA043?style=flat-square&logo=render&logoColor=white)](link)
 ![Python](https://img.shields.io/badge/python-3.12-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/flask-3.1-E3242B?style=flat-square&logo=flask&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.8-F37626?style=flat-square&logo=scikitlearn&logoColor=white)
